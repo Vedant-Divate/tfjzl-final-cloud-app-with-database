@@ -16,12 +16,12 @@
   <div class="container mt-4">
     {% if grade >= 80 %}
     <div class="alert alert-success">
-      <h2>Congratulations, {{ submission.enrollment.user.username }}!</h2>
+      <h2>Congratulations, {{ submission.learner.user.username }}!</h2>
       <p>You have passed the exam for <strong>{{ course.name }}</strong>.</p>
     </div>
     {% else %}
     <div class="alert alert-danger">
-      <h2>Sorry, {{ submission.enrollment.user.username }}.</h2>
+      <h2>Sorry, {{ submission.learner.user.username }}.</h2>
       <p>You did not pass this time. Please try again.</p>
     </div>
     {% endif %}

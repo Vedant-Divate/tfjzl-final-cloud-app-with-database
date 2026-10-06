@@ -27,15 +27,37 @@ class Lesson(models.Model):
         return f"Lesson: {self.title}"
 
 
-class Enrollment(models.Model):
-    """Links a user to a course they enrolled in."""
+class Instructor(models.Model):
+    """An instructor teaching courses on the platform."""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date_enrolled = models.DateField(default=now)
-    mode = models.CharField(max_length=20, default='audit')
+    full_time = models.BooleanField(default=True)
+    total_learners = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"Enrollment: {self.user} in {self.course.name}"
+        status = 'full-time' if self.full_time else 'part-time'
+        return f"Instructor: {self.user.username} ({status})"
+
+
+class Learner(models.Model):
+    """A learner enrolled in courses and taking exams."""
+    STUDENT = 'student'
+    DEVELOPER = 'developer'
+    DATA_SCIENTIST = 'data_scientist'
+    DATABASE_ADMIN = 'dba'
+    OCCUPATION_CHOICES = [
+        (STUDENT, 'Student'),
+        (DEVELOPER, 'Developer'),
+        (DATA_SCIENTIST, 'Data Scientist'),
+        (DATABASE_ADMIN, 'Database Admin'),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    occupation = models.CharField(
+        max_length=20, choices=OCCUPATION_CHOICES, default=STUDENT
+    )
+    social_link = models.URLField(max_length=200, default='')
+
+    def __str__(self):
+        return f"Learner: {self.user.username} ({self.occupation})"
 
 
 class Question(models.Model):
@@ -67,8 +89,8 @@ class Choice(models.Model):
 
 class Submission(models.Model):
     """A learner's exam attempt: chosen choices per question."""
-    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    learner = models.ForeignKey(Learner, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-        return f"Submission: {self.enrollment.user} for {self.enrollment.course.name}"
+        return f"Submission: {self.learner.user.username}"

@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .models import Choice, Course, Enrollment, Question, Submission
+from .models import Choice, Course, Learner, Question, Submission
 
 
 def course_details(request, course_id):
@@ -15,8 +15,8 @@ def course_details(request, course_id):
     questions = course.question_set.all()
     enrolled = False
     if request.user.is_authenticated:
-        enrolled = Enrollment.objects.filter(
-            user=request.user, course=course
+        enrolled = Learner.objects.filter(
+            user=request.user
         ).exists()
     context = {
         'course': course,
@@ -28,10 +28,10 @@ def course_details(request, course_id):
 
 
 def enroll(request, course_id):
-    """Enroll the logged-in user and go back to course details."""
+    """Register the logged-in user as a learner and go back to details."""
     course = get_object_or_404(Course, pk=course_id)
     if request.user.is_authenticated:
-        Enrollment.objects.get_or_create(user=request.user, course=course)
+        Learner.objects.get_or_create(user=request.user)
         course.total_enrollment += 1
         course.save()
     return HttpResponseRedirect(reverse('onlinecourse:course_details', args=(course.id,)))
@@ -41,8 +41,8 @@ def enroll(request, course_id):
 def submit(request, course_id):
     """Create a Submission from the selected exam choices."""
     course = get_object_or_404(Course, pk=course_id)
-    enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
-    submission = Submission.objects.create(enrollment=enrollment)
+    learner = get_object_or_404(Learner, user=request.user)
+    submission = Submission.objects.create(learner=learner)
     selected_ids = []
     for question in course.question_set.all():
         key = f'choice_{question.id}'
