@@ -57,8 +57,8 @@ class Migration(migrations.Migration):
             name='Question',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.CharField(default='Question', max_length=500)),
-                ('question_grade', models.IntegerField(default=1)),
+                ('question_text', models.CharField(default='Question', max_length=500)),
+                ('grade', models.IntegerField(default=1)),
                 ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='onlinecourse.course')),
             ],
         ),

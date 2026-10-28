@@ -63,11 +63,11 @@ class Learner(models.Model):
 class Question(models.Model):
     """An exam question attached to a course, worth a grade."""
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    content = models.CharField(max_length=500, default='Question')
-    question_grade = models.IntegerField(default=1)
+    question_text = models.CharField(max_length=500, default='Question')
+    grade = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"Question: {self.content}"
+        return f"Question: {self.question_text}"
 
     def is_get_score(self, selected_ids):
         """Return True when the selected choice ids exactly match the correct ones."""

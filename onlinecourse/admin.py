@@ -39,8 +39,8 @@ class LessonAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
     """Question editing with answer choices inline."""
     inlines = [ChoiceInline]
-    list_display = ('content', 'question_grade', 'course')
-    search_fields = ('content',)
+    list_display = ('question_text', 'grade', 'course')
+    search_fields = ('question_text',)
 
 
 class SubmissionAdmin(admin.ModelAdmin):

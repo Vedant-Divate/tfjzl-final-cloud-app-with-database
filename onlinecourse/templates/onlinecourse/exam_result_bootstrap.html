@@ -32,7 +32,7 @@
     {% for item in results %}
     <div class="card my-3">
       <div class="card-header">
-        {{ item.question.content }}
+        {{ item.question.question_text }}
         {% if item.correct %}
         <span class="badge bg-success">Correct</span>
         {% else %}

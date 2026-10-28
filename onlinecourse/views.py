@@ -65,14 +65,14 @@ def show_exam_result(request, course_id, submission_id):
     max_score = 0
     results = []
     for question in course.question_set.all():
-        max_score += question.question_grade
+        max_score += question.grade
         chosen = [
             str(cid) for cid in selected_ids
             if submission.choices.filter(pk=cid, question=question).exists()
         ]
         correct = question.is_get_score(chosen)
         if correct:
-            total_score += question.question_grade
+            total_score += question.grade
         results.append({
             'question': question,
             'choices': question.choice_set.all(),
