@@ -80,17 +80,17 @@ class Question(models.Model):
 class Choice(models.Model):
     """A possible answer choice for a question."""
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    content = models.CharField(max_length=500, default='Choice')
+    choice_text = models.CharField(max_length=500, default='Choice')
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Choice: {self.content}"
+        return f"Choice: {self.choice_text}"
 
 
 class Submission(models.Model):
     """A learner's exam attempt: chosen choices per question."""
-    learner = models.ForeignKey(Learner, on_delete=models.CASCADE)
+    enrollment = models.ForeignKey(Learner, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-        return f"Submission: {self.learner.user.username}"
+        return f"Enrollment: {self.enrollment.user.username}"

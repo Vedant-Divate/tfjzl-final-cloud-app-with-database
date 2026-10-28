@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
             name='Choice',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.CharField(default='Choice', max_length=500)),
+                ('choice_text', models.CharField(default='Choice', max_length=500)),
                 ('is_correct', models.BooleanField(default=False)),
                 ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='onlinecourse.question')),
             ],
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('choices', models.ManyToManyField(to='onlinecourse.choice')),
-                ('learner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='onlinecourse.learner')),
+                ('enrollment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='onlinecourse.learner')),
             ],
         ),
     ]

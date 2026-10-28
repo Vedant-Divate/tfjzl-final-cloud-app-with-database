@@ -45,8 +45,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     """Read-only overview of exam submissions."""
-    list_display = ('learner',)
-    readonly_fields = ('learner',)
+    list_display = ('enrollment',)
+    readonly_fields = ('enrollment',)
 
 
 admin.site.register(Course, CourseAdmin)

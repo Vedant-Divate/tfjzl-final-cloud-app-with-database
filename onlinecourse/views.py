@@ -42,7 +42,7 @@ def submit(request, course_id):
     """Create a Submission from the selected exam choices."""
     course = get_object_or_404(Course, pk=course_id)
     learner = get_object_or_404(Learner, user=request.user)
-    submission = Submission.objects.create(learner=learner)
+    submission = Submission.objects.create(enrollment=learner)
     selected_ids = []
     for question in course.question_set.all():
         key = f'choice_{question.id}'
